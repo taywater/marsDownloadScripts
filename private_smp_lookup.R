@@ -14,7 +14,6 @@ library(odbc)
 
 rm(list = ls())
 
-source("")  
 
 #setwd("//pwdoows/oows/Watershed Sciences/GSI Monitoring/06 Special Projects/24 MARS Database files/Downloader Scripts/Private Site SMP ID Lookup")
 options(stringsAsFactors=FALSE)
