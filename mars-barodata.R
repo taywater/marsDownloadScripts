@@ -1,20 +1,9 @@
   #Install the requisite R packages for the rest of the script.
-  # install.packages(c("tidyverse", "lubridate", "magrittr", "assertthat", "padr", "RODBC", "pracma"))
-  #dplyr stuff
-  library(tidyverse)
-  library(lubridate)
-  library(magrittr)
+  # install.packages("assertthat")
   library(assertthat)
-  library(padr)
   library(pwdgsi)
 
-  #Other Stuff
-  #library(RODBC)
-  library(odbc)
-
   rm(list = ls())
-
-  #source("//pwdoows/oows/Watershed Sciences/GSI Monitoring/07 Databases and Tracking Spreadsheets/13 MARS Analysis Database/Package/pwdgsi/R/mars_downloader_helper.R")
 
   setwd("//pwdoows/oows/Watershed Sciences/GSI Monitoring/07 Databases and Tracking Spreadsheets/13 MARS Analysis Database/Scripts/Downloader/Baro Data Downloader")
   options(stringsAsFactors=FALSE)
@@ -30,8 +19,8 @@
     ### 30 days hath September, April, June and November
     ### All the rest have 31 (Except February)
     ####################################
-    start_date <- mdy("09-13-2018", tz = "EST")
-    end_date <- mdy("09-15-2018", tz = "EST")
+    start_date <- lubridate::mdy("09-13-2018", tz = "EST")
+    end_date <- lubridate::mdy("09-15-2018", tz = "EST")
     ####################################
 
     # What interval do you want for the final data?
@@ -64,13 +53,13 @@
     #Then click "Test" to see if the connection works
 
     #The end result should look like this: "//pwdoows/oows/Watershed Sciences/GSI Monitoring/08 Memos/12 MARS database/Successful Connection.png"
-    test <- dbConnect(odbc::odbc(), "mars_testing")
-    dbListTables(test) #If that didn't work, your DSN isn't working.
-    dbDisconnect(test)
+    test <- odbc::dbConnect(odbc::odbc(), "mars_testing")
+    odbc::dbListTables(test) #If that didn't work, your DSN isn't working.
+    odbc::dbDisconnect(test)
 
-    mars <- dbConnect(odbc::odbc(), "mars_testing")
-    smplist <- dbGetQuery(mars, "SELECT * FROM smpid_facilityid_componentid")
-    smplocations <- dbGetQuery(mars, "SELECT * FROM smp_loc")
+    mars <- odbc::dbConnect(odbc::odbc(), "mars_testing")
+    smplist <- odbc::dbGetQuery(mars, "SELECT * FROM smpid_facilityid_componentid")
+    smplocations <- odbc::dbGetQuery(mars, "SELECT * FROM smp_loc")
 
     # If this assert_that statement doesn't return TRUE, the datbase doesn't know about your SMP.
     assert_that(smp_id %in% smplist$smp_id, msg = "SMP ID does not exist in MARS database")
@@ -93,13 +82,13 @@
     # Data summary
     for(i in 1){
       print(paste("Baro data for SMP:", smp_id))
-      print(paste("Start Date:", first(barodata$dtime_est)))
-      print(paste("End Date:", last(barodata$dtime_est)))
+      print(paste("Start Date:", dplyr::first(barodata$dtime_est)))
+      print(paste("End Date:", dplyr::last(barodata$dtime_est)))
       print(paste("Data Length:", nrow(barodata)))
       print(paste("Number of Holes:", sum(!complete.cases(barodata[1:3]))))
       #print(paste("Data Sources:", paste(unique(barodata$baro_id), collapse = ", ")))
     }
 
   ##### Step 4: Save the data and close the connection
-    dbDisconnect(mars)
-    write.csv(barodata, file = paste0(paste(smp_id, start_date, "to", end_date, sep = "_"), ".csv"), row.names=FALSE)
+    odbc::dbDisconnect(mars)
+     write.csv(barodata, file = paste0(paste(smp_id, start_date, "to", end_date, sep = "_"), ".csv"), row.names=FALSE)

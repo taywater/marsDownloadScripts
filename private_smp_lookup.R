@@ -1,16 +1,8 @@
 #Install the requisite R packages for the rest of the script.
-#install.packages(c("tidyverse", "lubridate", "magrittr", "assertthat", "padr", "RODBC"))
+#install.packages("assertthat")
 
-#dplyr stuff
-library(tidyverse)
-library(lubridate)
-library(magrittr)
-library(assertthat)
-library(padr)
 library(pwdgsi)
-
-#Other Stuff
-library(odbc)
+library(assertthat)
 
 rm(list = ls())
 
@@ -49,11 +41,11 @@ options(stringsAsFactors=FALSE)
 
   #The end result should look like this: "//pwdoows/oows/Watershed Sciences/GSI Monitoring/08 Memos/12 MARS database/Successful Connection.png"
 
-  test <- dbConnect(odbc::odbc(), "mars")
-  dbListTables(test) #If that didn't work, your DSN isn't working.
-  dbDisconnect(test)
+  test <- odbc::dbConnect(odbc::odbc(), "mars")
+  odbc::dbListTables(test) #If that didn't work, your DSN isn't working.
+  odbc::dbDisconnect(test)
   
-  mars <- dbConnect(odbc::odbc(), "mars")
+  mars <- odbc::dbConnect(odbc::odbc(), "mars")
 
 ##### Step 2: Look up the SMPs
 
@@ -62,7 +54,7 @@ options(stringsAsFactors=FALSE)
 
 
 ##### Step 3: Close the database.
-  dbDisconnect(mars)
+  odbc::dbDisconnect(mars)
   
 
   

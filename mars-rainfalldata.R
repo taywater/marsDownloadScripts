@@ -2,15 +2,14 @@
 #install.packages(c("tidyverse", "lubridate", "magrittr", "assertthat", "padr", "RODBC", "zoo"))
 
 #dplyr stuff
-library(tidyverse)
-library(lubridate)
-library(magrittr)
+# library(tidyverse)
+# library(lubridate)
+# library(magrittr)
+# library(padr)
+#library(odbc)
 library(assertthat)
-library(padr)
 library(pwdgsi)
 
-#Other Stuff
-library(odbc)
 rm(list = ls())
 
 setwd("//pwdoows/oows/Watershed Sciences/GSI Monitoring/07 Databases and Tracking Spreadsheets/13 MARS Analysis Database/Scripts/Downloader/Rainfall Data Downloader")
@@ -28,8 +27,8 @@ options(stringsAsFactors=FALSE)
   ### 30 days hath September, April, June and November
   ### All the rest have 31 (Except February)
   ####################################
-  start_date <- mdy("04-01-2019")
-  end_date <- mdy("05-01-2019")
+  start_date <- lubridate::mdy("04-01-2019")
+  end_date <- lubridate::mdy("05-01-2019")
   daylightsavings <- FALSE #Correct for Daylight Savings Time?
                            #When doing QAQC, this should be FALSE
   ####################################
@@ -56,13 +55,13 @@ options(stringsAsFactors=FALSE)
   #Then click "Test" to see if the connection works
 
   #The end result should look like this: "//pwdoows/oows/Watershed Sciences/GSI Monitoring/08 Memos/12 MARS database/Successful Connection.png"
-  test <- dbConnect(odbc::odbc(), "mars_testing")
-  dbListTables(test) #If that didn't work, your DSN isn't working.
-  dbDisconnect(test)
+  test <- odbc::dbConnect(odbc::odbc(), "mars_testing")
+  odbc::dbListTables(test) #If that didn't work, your DSN isn't working.
+  odbc::dbDisconnect(test)
 
-  mars <- dbConnect(odbc::odbc(), "mars_testing")
-  smplist <- dbGetQuery(mars, "SELECT * FROM smpid_facilityid_componentid")
-  smplocations <- dbGetQuery(mars, "SELECT * FROM smp_loc")
+  mars <- odbc::dbConnect(odbc::odbc(), "mars_testing")
+  smplist <- odbc::dbGetQuery(mars, "SELECT * FROM smpid_facilityid_componentid")
+  smplocations <- odbc::dbGetQuery(mars, "SELECT * FROM smp_loc")
 
   # If this assert_that statement doesn't return TRUE, the datbase doesn't know about your SMP.
   assert_that(smp_id %in% smplist$smp_id, msg = "SMP ID does not exist in MARS database")
@@ -85,8 +84,8 @@ options(stringsAsFactors=FALSE)
 
     # Data summary
     print(paste("Rainfall data for SMP:", smp_id))
-    print(paste("Start Date:", first(rainfalldata$dtime_est)))
-    print(paste("End Date:", last(rainfalldata$dtime_est)))
+    print(paste("Start Date:", dplyr::first(rainfalldata$dtime_est)))
+    print(paste("End Date:", dplyr::last(rainfalldata$dtime_est)))
     print(paste("Number of events:", length(unique(rainfalldata$event_id[!is.na(rainfalldata$event_id)]))))
     print(paste("Data Length:", nrow(rainfalldata)))
 
@@ -94,5 +93,5 @@ options(stringsAsFactors=FALSE)
   }
 
 ##### Step 5: Save the data and close the connection
-  dbDisconnect(mars)
+  odbc::dbDisconnect(mars)
 
