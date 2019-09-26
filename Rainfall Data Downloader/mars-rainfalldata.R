@@ -12,7 +12,7 @@ library(pwdgsi)
 
 rm(list = ls())
 
-downloader_folder <- ("//pwdoows/oows/Watershed Sciences/GSI Monitoring/07 Databases and Tracking Spreadsheets/13 MARS Analysis Database/Scripts/Downloader/marsDownloadScripts/Rainfall Data Downloader")
+downloader_folder <- ("//pwdoows/oows/Watershed Sciences/GSI Monitoring/07 Databases and Tracking Spreadsheets/13 MARS Analysis Database/Scripts/Downloader/Rainfall Data Downloader")
 options(stringsAsFactors=FALSE)
 
 
@@ -55,11 +55,11 @@ options(stringsAsFactors=FALSE)
   #Then click "Test" to see if the connection works
 
   #The end result should look like this: "//pwdoows/oows/Watershed Sciences/GSI Monitoring/08 Memos/12 MARS database/Successful Connection.png"
-  test <- odbc::dbConnect(odbc::odbc(), "mars_testing")
+  test <- odbc::dbConnect(odbc::odbc(), "mars")
   odbc::dbListTables(test) #If that didn't work, your DSN isn't working.
   odbc::dbDisconnect(test)
 
-  mars <- odbc::dbConnect(odbc::odbc(), "mars_testing")
+  mars <- odbc::dbConnect(odbc::odbc(), "mars")
   smplist <- odbc::dbGetQuery(mars, "SELECT * FROM smpid_facilityid_componentid")
   smplocations <- odbc::dbGetQuery(mars, "SELECT * FROM smp_loc")
 
