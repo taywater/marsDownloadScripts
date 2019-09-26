@@ -12,14 +12,14 @@ library(pwdgsi)
 
 rm(list = ls())
 
-downloader_folder <- ("//pwdoows/oows/Watershed Sciences/GSI Monitoring/07 Databases and Tracking Spreadsheets/13 MARS Analysis Database/Scripts/Downloader/Rainfall Data Downloader")
+downloader_folder <- ("//pwdoows/oows/Watershed Sciences/GSI Monitoring/07 Databases and Tracking Spreadsheets/13 MARS Analysis Database/Scripts/Downloader/marsDownloadScripts/Rainfall Data Downloader")
 options(stringsAsFactors=FALSE)
 
 
 ##### Step 1: What SMP are you working with?
   # Change the SMP ID to tell the database what SMP you're using.
   ########################
-  smp_id <- "394-3-1"
+  smp_id <- "1-1-1"
   ########################
 
 ##### Step 2: What time period are you searching for?
@@ -28,7 +28,7 @@ options(stringsAsFactors=FALSE)
   ### All the rest have 31 (Except February)
   ####################################
   start_date <- lubridate::mdy("04-01-2019")
-  end_date <- lubridate::mdy("05-01-2019")
+  end_date <- lubridate::mdy("10-01-2019")
   daylightsavings <- FALSE #Correct for Daylight Savings Time?
                            #When doing QAQC, this should be FALSE
   ####################################
@@ -88,10 +88,12 @@ options(stringsAsFactors=FALSE)
     print(paste("End Date:", dplyr::last(rainfalldata$dtime_est)))
     print(paste("Number of events:", length(unique(rainfalldata$event_id[!is.na(rainfalldata$event_id)]))))
     print(paste("Data Length:", nrow(rainfalldata)))
-
+  
+##### Step 5: Save and open the data and close the connection    
     write.csv(rainfalldata, file = paste0(downloader_folder, "/rainfalldata_", paste(smp_id, start_date, "to", end_date, sep = "_"), ".csv"), row.names=FALSE)
   }
 
+  system(paste0("open \"", downloader_folder, "/rainfalldata_", paste(smp_id, start_date, "to", end_date, sep = "_"), ".csv\""))
 ##### Step 5: Save the data and close the connection
   odbc::dbDisconnect(mars)
 

@@ -7,13 +7,13 @@
 
   rm(list = ls())
 
-  downloader_folder <- ("//pwdoows/oows/Watershed Sciences/GSI Monitoring/07 Databases and Tracking Spreadsheets/13 MARS Analysis Database/Scripts/Downloader/Baro Data Downloader")
+  downloader_folder <- ("//pwdoows/oows/Watershed Sciences/GSI Monitoring/07 Databases and Tracking Spreadsheets/13 MARS Analysis Database/Scripts/Downloader/marsDownloadScripts/Baro Data Downloader")
   options(stringsAsFactors=FALSE)
 
   ##### Step 1: What SMP are you working with?
     # Change the SMP ID to tell the database what SMP you're using.
     ########################
-    smp_id <- "8-1-1"
+    smp_id <- "326-1-1"
     ########################
 
     # Change the date boundaries to reflect the time period for which you want data
@@ -22,7 +22,7 @@
     ### All the rest have 31 (Except February)
     ####################################
     start_date <- lubridate::mdy("01-01-2019", tz = "EST")
-    end_date <- lubridate::mdy("01-03-2019", tz = "EST")
+    end_date <- lubridate::mdy("10-01-2019", tz = "EST")
     ####################################
 
     # What interval do you want for the final data?
@@ -91,8 +91,8 @@
       #print(paste("Data Sources:", paste(unique(barodata$baro_id), collapse = ", ")))
     }
 
-  ##### Step 4: Save the data and close the connection
+  ##### Step 4: Save and open the data and close the connection
     odbc::dbDisconnect(mars)
      write.csv(barodata, file = paste0(downloader_folder, "/", paste(smp_id, start_date, "to", end_date, sep = "_"), ".csv"), row.names=FALSE)
-
+     system(paste0("open \"", downloader_folder, "/", paste(smp_id, start_date, "to", end_date, sep = "_"), ".csv\""))
      
