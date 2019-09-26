@@ -12,7 +12,7 @@ library(pwdgsi)
 
 rm(list = ls())
 
-setwd("//pwdoows/oows/Watershed Sciences/GSI Monitoring/07 Databases and Tracking Spreadsheets/13 MARS Analysis Database/Scripts/Downloader/Rainfall Data Downloader")
+downloader_folder <- ("//pwdoows/oows/Watershed Sciences/GSI Monitoring/07 Databases and Tracking Spreadsheets/13 MARS Analysis Database/Scripts/Downloader/Rainfall Data Downloader")
 options(stringsAsFactors=FALSE)
 
 
@@ -89,7 +89,7 @@ options(stringsAsFactors=FALSE)
     print(paste("Number of events:", length(unique(rainfalldata$event_id[!is.na(rainfalldata$event_id)]))))
     print(paste("Data Length:", nrow(rainfalldata)))
 
-    write.csv(rainfalldata, file = paste0("rainfalldata_", paste(smp_id, start_date, "to", end_date, sep = "_"), ".csv"), row.names=FALSE)
+    write.csv(rainfalldata, file = paste0(downloader_folder, "/rainfalldata_", paste(smp_id, start_date, "to", end_date, sep = "_"), ".csv"), row.names=FALSE)
   }
 
 ##### Step 5: Save the data and close the connection
