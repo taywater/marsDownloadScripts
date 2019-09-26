@@ -7,13 +7,13 @@
 
   rm(list = ls())
 
-  downloader_folder <- ("//pwdoows/oows/Watershed Sciences/GSI Monitoring/07 Databases and Tracking Spreadsheets/13 MARS Analysis Database/Scripts/Downloader/marsDownloadScripts/Baro Data Downloader")
+  downloader_folder <- ("//pwdoows/oows/Watershed Sciences/GSI Monitoring/07 Databases and Tracking Spreadsheets/13 MARS Analysis Database/Scripts/Downloader/Baro Data Downloader")
   options(stringsAsFactors=FALSE)
 
   ##### Step 1: What SMP are you working with?
     # Change the SMP ID to tell the database what SMP you're using.
     ########################
-    smp_id <- "326-1-1"
+    smp_id <- "2-1-1"
     ########################
 
     # Change the date boundaries to reflect the time period for which you want data
@@ -22,7 +22,7 @@
     ### All the rest have 31 (Except February)
     ####################################
     start_date <- lubridate::mdy("01-01-2019", tz = "EST")
-    end_date <- lubridate::mdy("10-01-2019", tz = "EST")
+    end_date <- lubridate::mdy("01-15-2019", tz = "EST")
     ####################################
 
     # What interval do you want for the final data?
@@ -55,11 +55,11 @@
     #Then click "Test" to see if the connection works
 
     #The end result should look like this: "//pwdoows/oows/Watershed Sciences/GSI Monitoring/08 Memos/12 MARS database/Successful Connection.png"
-    test <- odbc::dbConnect(odbc::odbc(), "mars_testing")
+    test <- odbc::dbConnect(odbc::odbc(), "mars")
     odbc::dbListTables(test) #If that didn't work, your DSN isn't working.
     odbc::dbDisconnect(test)
 
-    mars <- odbc::dbConnect(odbc::odbc(), "mars_testing")
+    mars <- odbc::dbConnect(odbc::odbc(), "mars")
     smplist <- odbc::dbGetQuery(mars, "SELECT * FROM smpid_facilityid_componentid")
     smplocations <- odbc::dbGetQuery(mars, "SELECT * FROM smp_loc")
 

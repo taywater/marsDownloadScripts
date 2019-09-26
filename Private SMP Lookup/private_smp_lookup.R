@@ -7,7 +7,6 @@ library(assertthat)
 rm(list = ls())
 
 
-#setwd("//pwdoows/oows/Watershed Sciences/GSI Monitoring/06 Special Projects/24 MARS Database files/Downloader Scripts/Private Site SMP ID Lookup")
 options(stringsAsFactors=FALSE)
 
 ##### Step 1: What Tracking Number(s) (eg FY16-WAKE-4282-01) are you working with?
