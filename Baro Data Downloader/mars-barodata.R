@@ -4,6 +4,7 @@
   library(pwdgsi)
   library(odbc)
   library(lubridate)
+  library(mapview)
 
   rm(list = ls())
 
@@ -13,7 +14,7 @@
   ##### Step 1: What SMP are you working with?
     # Change the SMP ID to tell the database what SMP you're using.
     ########################
-    smp_id <- "2-1-1"
+    smp_id <- "20-2-1"
     ########################
 
     # Change the date boundaries to reflect the time period for which you want data
@@ -22,7 +23,7 @@
     ### All the rest have 31 (Except February)
     ####################################
     start_date <- lubridate::mdy("01-01-2019", tz = "EST")
-    end_date <- lubridate::mdy("01-15-2019", tz = "EST")
+    end_date <- lubridate::mdy("11-15-2019", tz = "EST")
     ####################################
 
     # What interval do you want for the final data?
@@ -30,7 +31,7 @@
     # It won't work if you type "Mins" or "minutes" or something like that.
     # So please don't do that.
     #################################
-    data_interval <- "15 mins"
+    data_interval <- "5 mins"
     #################################
 
   ##### Step 1.1: Make a connection to the MARS database
