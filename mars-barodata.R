@@ -2,10 +2,12 @@
   # install.packages("assertthat")
   library(assertthat)
   library(pwdgsi)
+  library(odbc)
+  library(lubridate)
 
   rm(list = ls())
 
-  setwd("//pwdoows/oows/Watershed Sciences/GSI Monitoring/07 Databases and Tracking Spreadsheets/13 MARS Analysis Database/Scripts/Downloader/Baro Data Downloader")
+  downloader_folder <- ("//pwdoows/oows/Watershed Sciences/GSI Monitoring/07 Databases and Tracking Spreadsheets/13 MARS Analysis Database/Scripts/Downloader/Baro Data Downloader")
   options(stringsAsFactors=FALSE)
 
   ##### Step 1: What SMP are you working with?
@@ -19,8 +21,8 @@
     ### 30 days hath September, April, June and November
     ### All the rest have 31 (Except February)
     ####################################
-    start_date <- lubridate::mdy("09-13-2018", tz = "EST")
-    end_date <- lubridate::mdy("09-15-2018", tz = "EST")
+    start_date <- lubridate::mdy("01-01-2019", tz = "EST")
+    end_date <- lubridate::mdy("01-03-2019", tz = "EST")
     ####################################
 
     # What interval do you want for the final data?
@@ -28,7 +30,7 @@
     # It won't work if you type "Mins" or "minutes" or something like that.
     # So please don't do that.
     #################################
-    data_interval <- "5 mins"
+    data_interval <- "15 mins"
     #################################
 
   ##### Step 1.1: Make a connection to the MARS database
@@ -74,7 +76,7 @@
       start_date = start_date,
       end_date = end_date,
       data_interval = data_interval
-      )
+      ) 
 
     #Wrap SMP IDs with single quotes so Excel doesn't parse them as dates
     #barodata$baro_id <- sapply(barodata$baro_id, function(x) paste0("'", x, "'"))
@@ -91,4 +93,6 @@
 
   ##### Step 4: Save the data and close the connection
     odbc::dbDisconnect(mars)
-     write.csv(barodata, file = paste0(paste(smp_id, start_date, "to", end_date, sep = "_"), ".csv"), row.names=FALSE)
+     write.csv(barodata, file = paste0(downloader_folder, "/", paste(smp_id, start_date, "to", end_date, sep = "_"), ".csv"), row.names=FALSE)
+
+     
