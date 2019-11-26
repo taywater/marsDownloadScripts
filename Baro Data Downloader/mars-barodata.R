@@ -1,5 +1,5 @@
   #Install the requisite R packages for the rest of the script.
-  # install.packages("assertthat")
+  #install.packages(c("assertthat", "pwdgsi", "dplyr", "odbc", "lubridate", "mapview", "backports"))
   library(assertthat)
   library(pwdgsi)
   library(odbc)
@@ -14,7 +14,7 @@
   ##### Step 1: What SMP are you working with?
     # Change the SMP ID to tell the database what SMP you're using.
     ########################
-    smp_id <- "20-2-1"
+    smp_id <- "20-6-1"
     ########################
 
     # Change the date boundaries to reflect the time period for which you want data
@@ -23,7 +23,7 @@
     ### All the rest have 31 (Except February)
     ####################################
     start_date <- lubridate::mdy("01-01-2019", tz = "EST")
-    end_date <- lubridate::mdy("11-15-2019", tz = "EST")
+    end_date <- lubridate::mdy("05-15-2019", tz = "EST")
     ####################################
 
     # What interval do you want for the final data?
