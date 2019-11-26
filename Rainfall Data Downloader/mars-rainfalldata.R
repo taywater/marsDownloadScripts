@@ -81,7 +81,7 @@ options(stringsAsFactors=FALSE)
     print(paste("Rainfall data for SMP:", smp_id))
     print(paste("Start Date:", dplyr::first(rainfalldata$dtime_est)))
     print(paste("End Date:", dplyr::last(rainfalldata$dtime_est)))
-    print(paste("Number of events:", length(unique(rainfalldata$event_id[!is.na(rainfalldata$event_id)]))))
+    print(paste("Number of events:", length(unique(rainfalldata$rainfall_gage_event_uid[!is.na(rainfalldata$rainfall_gage_event_uid)]))))
     print(paste("Data Length:", nrow(rainfalldata)))
   
 ##### Step 5: Save and open the data and close the connection    
