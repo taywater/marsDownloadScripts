@@ -1,12 +1,7 @@
 #Install the requisite R packages for the rest of the script.
-#install.packages(c("tidyverse", "lubridate", "magrittr", "assertthat", "padr", "RODBC", "zoo"))
+install.packages(c("assertthat", "pwdgsi"))
 
 #dplyr stuff
-# library(tidyverse)
-# library(lubridate)
-# library(magrittr)
-# library(padr)
-#library(odbc)
 library(assertthat)
 library(pwdgsi)
 
@@ -19,7 +14,7 @@ options(stringsAsFactors=FALSE)
 ##### Step 1: What SMP are you working with?
   # Change the SMP ID to tell the database what SMP you're using.
   ########################
-  smp_id <- "1-1-1"
+  smp_id <- "326-1-1"
   ########################
 
 ##### Step 2: What time period are you searching for?
@@ -27,8 +22,8 @@ options(stringsAsFactors=FALSE)
   ### 30 days hath September, April, June and November
   ### All the rest have 31 (Except February)
   ####################################
-  start_date <- lubridate::mdy("04-01-2019")
-  end_date <- lubridate::mdy("10-01-2019")
+  start_date <- lubridate::mdy("05-14-2019")
+  end_date <- lubridate::mdy("06-30-2019")
   daylightsavings <- FALSE #Correct for Daylight Savings Time?
                            #When doing QAQC, this should be FALSE
   ####################################
