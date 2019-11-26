@@ -13,7 +13,7 @@ options(stringsAsFactors=FALSE)
   # Change the Tracking Number below to tell the database what SMPs to find.
   # Use c("####", "####") to add more than one Tracking Number
   ########################
-  tracking_numbers <- "2005-0086-01"
+  tracking_numbers <- "FY17-PASC-4472-01"
     
   ########################
 
@@ -48,7 +48,7 @@ options(stringsAsFactors=FALSE)
 
 ##### Step 2: Look up the SMPs
 
-  privateSMPs <- lookupPrivateSMPs(con = mars, tracking_numbers = tracking_numbers)
+  privateSMPs <- pwdgsi::marsFetchPrivateSMPRecords(con = mars, tracking_numbers = tracking_numbers)
   print(privateSMPs)
 
 
